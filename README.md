@@ -36,7 +36,7 @@ El archivo Dockerfile fue modificado para incluir los paquetes necesarios en la 
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
+    RUN apt-get update && apt-get install -y \
     apache2 \
     php \
     libapache2-mod-php \
