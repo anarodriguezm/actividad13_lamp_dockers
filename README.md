@@ -22,11 +22,11 @@ No se realizaron modificaciones en este archivo. Contiene el código PHP de la a
 
 Se creó este archivo para almacenar variables de entorno que serán utilizadas por el sistema. En él, se definieron las siguientes variables:
 
-  MARIADB_ROOT_PASSWORD=root
-  MARIADB_HOST=mysql
-  MARIADB_DATABASE=tienda
-  MARIADB_USER=user
-  MARIADB_PASSWORD=password
+    MARIADB_ROOT_PASSWORD=root
+    MARIADB_HOST=mysql
+    MARIADB_DATABASE=tienda
+    MARIADB_USER=user
+    MARIADB_PASSWORD=password
 
 Estas variables serán utilizadas por el sistema para configurar la base de datos MariaDB y la aplicación web.
 
@@ -34,7 +34,7 @@ Estas variables serán utilizadas por el sistema para configurar la base de dato
 
 El archivo Dockerfile fue modificado para incluir los paquetes necesarios en la imagen Docker. Se agregaron las siguientes líneas:
 
-ENV DEBIAN_FRONTEND=noninteractive
+    ENV DEBIAN_FRONTEND=noninteractive
 
     RUN apt-get update && apt-get install -y \
     apache2 \
