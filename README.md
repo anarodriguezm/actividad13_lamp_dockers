@@ -4,24 +4,62 @@ En primer lugar he hecho un git clone del repositorio donde estan los docker com
 
 # PASO 2: conf/000-default.conf
 
-El archivo 000-default.conf configura establece el directorio raíz del servidor web, priorizando el archivo index.php.
+En este archivo se realizaron modificaciones para configurar el servidor Apache de manera que priorice el archivo index.php sobre index.html. Esto se logra agregando la siguiente línea:
+
+  DirectoryIndex index.html index.php
+
+Al incluir index.php como la primera opción en la lista de archivos index, estamos asegurando que cuando un usuario acceda al servidor, el archivo index.php será el primero que se cargue si existe.
 
 # PASO 3: sql/schema.sql
 
-El archivo schema.sql contiene el script SQL para crear la base de datos tienda y la tabla fabricante, así como insertar algunos datos de ejemplo en la tabla.
+Este archivo no fue modificado. Contiene el script SQL que define la estructura de la base de datos y carga datos iniciales.
 
 # PASO 4: src/index.php
 
-El archivo index.php contiene el código PHP de la aplicación web, que se conecta a una base de datos MariaDB, realiza una consulta y muestra los resultados en el navegador.
+No se realizaron modificaciones en este archivo. Contiene el código PHP de la aplicación web.
 
 # PASO 5: .env
 
-El archivo .env define las variables de entorno necesarias para la configuración de los servicios en el archivo docker-compose.yml, incluyendo la contraseña de root de MariaDB, el nombre de la base de datos, el usuario y la contraseña.
+Se creó este archivo para almacenar variables de entorno que serán utilizadas por el sistema. En él, se definieron las siguientes variables:
+
+  MARIADB_ROOT_PASSWORD=root
+  MARIADB_HOST=mysql
+  MARIADB_DATABASE=tienda
+  MARIADB_USER=user
+  MARIADB_PASSWORD=password
+
+Estas variables serán utilizadas por el sistema para configurar la base de datos MariaDB y la aplicación web.
 
 # PASO 6: Dockerfile
 
-El archivo Dockerfile define los pasos necesarios para construir una imagen personalizada de Apache con PHP y configurada para trabajar con una base de datos MariaDB.
+El archivo Dockerfile fue modificado para incluir los paquetes necesarios en la imagen Docker. Se agregaron las siguientes líneas:
 
-# PASO 7: docker-compose.yml
+ENV DEBIAN_FRONTEND=noninteractive
 
-El archivo docker-compose.yml define los servicios de Apache, MariaDB y phpMyAdmin, utilizando imágenes oficiales de Docker Hub para MariaDB y phpMyAdmin, y la imagen personalizada de Apache definida en el Dockerfile. Además, especifica los puertos expuestos y los volúmenes utilizados por cada servicio.
+RUN apt-get update && apt-get install -y \
+    apache2 \
+    php \
+    libapache2-mod-php \
+    php-mysql
+
+Esto asegura que Apache, PHP y los módulos necesarios estén instalados en la imagen.
+
+# PASO 6: docker-compose.yml
+
+El archivo docker-compose.yml fue modificado para definir los servicios de Apache, MariaDB y phpMyAdmin, junto con la configuración de los volúmenes y los puertos expuestos. Por ejemplo:
+
+services:
+  apache:
+   
+    ports:
+      - "80:80"
+    
+  mariadb:
+   
+    ports:
+      - "3306:3306"
+   
+
+Estas líneas configuran los puertos expuestos para que los servicios sean accesibles desde el host.
+
+Con estas modificaciones, se logra configurar un entorno de desarrollo LAMP con una pequeña aplicación web utilizando contenedores Docker y Docker Compose.
