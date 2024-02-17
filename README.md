@@ -6,7 +6,7 @@ En primer lugar he hecho un git clone del repositorio donde estan los docker com
 
 En este archivo se realizaron modificaciones para configurar el servidor Apache de manera que priorice el archivo index.php sobre index.html. Esto se logra agregando la siguiente línea:
 
-  DirectoryIndex index.html index.php
+    DirectoryIndex index.html index.php
 
 Al incluir index.php como la primera opción en la lista de archivos index, estamos asegurando que cuando un usuario acceda al servidor, el archivo index.php será el primero que se cargue si existe.
 
