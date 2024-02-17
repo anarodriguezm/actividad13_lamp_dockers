@@ -1,18 +1,22 @@
-FROM ubuntu:22.04
+# Dockerfile para la imagen Apache
 
+# Utilizamos Debian como imagen base
+FROM debian:latest
+
+# Configuramos la variable de entorno para la instalación de paquetes
 ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Madrid
 
-RUN apt-get update \
-    && apt-get install -y apache2 \
-    && apt-get install -y php \
-    && apt-get install -y libapache2-mod-php \
-    && apt-get install -y php-mysql
+# Instalamos Apache y los paquetes necesarios para PHP y MariaDB
+RUN apt-get update && \
+    apt-get install -y apache2 php libapache2-mod-php php-mysql && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
+# Configuramos Apache para priorizar el archivo index.php
+COPY conf/000-default.conf /etc/apache2/sites-available/000-default.conf
 
+# Exponemos el puerto 80 para acceder al servicio de Apache
 EXPOSE 80
 
-ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+# Iniciamos Apache en primer plano al ejecutar el contenedor
+CMD ["apachectl", "-D", "FOREGROUND"]
