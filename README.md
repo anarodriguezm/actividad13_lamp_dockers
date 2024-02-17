@@ -4,7 +4,7 @@ En primer lugar he hecho un git clone del repositorio donde estan los docker com
 
 # PASO 2: conf/000-default.conf
 
-El archivo 000-default.conf configura el host virtual por defecto de Apache, estableciendo el directorio raíz del servidor web, priorizando el archivo index.php y configurando los archivos de registro de errores y accesos de Apache.
+El archivo 000-default.conf configura establece el directorio raíz del servidor web, priorizando el archivo index.php.
 
 # PASO 3: sql/schema.sql
 
