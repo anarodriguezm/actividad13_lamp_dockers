@@ -12,11 +12,57 @@ Al incluir index.php como la primera opción en la lista de archivos index, esta
 
 # PASO 3: sql/schema.sql
 
-Este archivo no fue modificado. Contiene el script SQL que define la estructura de la base de datos y carga datos iniciales.
+Cambie el schema.sql y aplique el siguiente codigo:
+
+    DROP DATABASE IF EXISTS tienda;
+
+    CREATE DATABASE tienda CHARSET utf8mb4;
+
+    USE tienda;
+
+    CREATE TABLE fabricante (
+
+        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+        nombre VARCHAR(100) NOT NULL
+
+    );
+
+    INSERT INTO fabricante VALUES(1, 'Asus');
+
+    INSERT INTO fabricante VALUES(2, 'Lenovo');
+
+    INSERT INTO fabricante VALUES(3, 'Hewlett-Packard');
+
+    INSERT INTO fabricante VALUES(4, 'Samsung');
 
 # PASO 4: src/index.php
 
-No se realizaron modificaciones en este archivo. Contiene el código PHP de la aplicación web.
+Cambien el index.php y añadi el siguiente codigo:
+
+    <?php
+
+     define('MARIADB_HOST', 'mysql');
+
+     define('MARIADB_DATABASE', 'tienda');
+
+     define('MARIADB_USER', 'user');
+
+     define('MARIADB_PASSWORD', 'password');
+
+     $mysqli = new mysqli(MARIADB_HOST, MARIADB_USER, MARIADB_PASSWORD,MARIADB_DATABASE);
+
+     $result = $mysqli->query("SELECT * FROM fabricante");
+
+     $mysqli->close();
+
+     foreach ($result as $row) {
+
+        echo $row['nombre']."<br>";
+
+     }
+
+    ?>
 
 # PASO 5: .env
 
