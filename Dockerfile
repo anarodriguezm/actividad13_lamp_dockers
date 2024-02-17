@@ -1,18 +1,18 @@
-# Utilizando la imagen base de Debian
-FROM debian:latest
+FROM ubuntu:22.04
 
-# Configurando la variable de entorno DEBIAN_FRONTEND como noninteractive
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Madrid
 
-# Actualizando e instalando Apache, PHP y MySQL
-RUN apt-get update && \
-    apt-get install -y apache2 php libapache2-mod-php php-mysql
+RUN apt-get update \
+    && apt-get install -y apache2 \
+    && apt-get install -y php \
+    && apt-get install -y libapache2-mod-php \
+    && apt-get install -y php-mysql
 
-# Copiando el código de la aplicación web al directorio /var/www/html
-COPY src/index.php /var/www/html/index.php
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
 
-# Exponiendo el puerto 80 para el servicio de Apache
 EXPOSE 80
 
-# Iniciando el servicio de Apache al ejecutar el contenedor
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
